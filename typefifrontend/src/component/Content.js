@@ -1,6 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
+import InfoIcon from '@mui/icons-material/Info';
+import CheckIcon from '@mui/icons-material/Check';
+import FolderCopyIcon from '@mui/icons-material/FolderCopy';
+
 const Content = () => {
   const [users, setUsers] = useState([]);
 
@@ -17,34 +21,74 @@ const Content = () => {
   return (
     <div className="container">
       <div className="py-4">
-        <table className="table ">
+        <table className="table table-hover">
           <thead>
             <tr>
-              <th scope="col">info-success</th>
-              <th scope="col">foldericon</th>
-              <th scope="col">endTime</th>
+              <th scope="col">Status</th>
+              <th scope="col"></th>
+              <th scope="col">Start Time</th>
               <th scope="col">owner</th>
-              <th scope="col">Status & Date</th>
+              <th scope="col">Status & End Date</th>
             </tr>
           </thead>
 
           <tbody>
+            {}
             {users.map((user, index) => {
+              // make time as mm-dd
+              const endTime = user.endTime;
+              const date = new Date(endTime);
+
+              // month
+              const month = date.toLocaleString('default', { month: 'long' });
+
+              // day
+              const day = date.getDate();
+
               return (
                 <tr key={index}>
-                  <td>icon-info-success</td>
-                  <td>folder</td>
-                  <td>{user.endTime}</td>
-                  <td>{user.owner}</td>
-                  <td>
-                    {user.jobStatus} - {user.startTime}
-                  </td>
-                  {/* <td>{user.labels}</td>
-                  <td>{user.name}</td>
-                  <td>{user.owner}</td>
-                  <td>{user.path}</td>
-                  <td>{user.queuedTime}</td>
-                  <td>{user.startTime}</td> */}
+                  {/* 1 */}
+                  {user.jobStatus === 'Completed' ? (
+                    <td style={{ color: 'green' }}>
+                      <CheckIcon />
+                    </td>
+                  ) : (
+                    <td style={{ color: 'red' }}>
+                      <InfoIcon />
+                    </td>
+                  )}
+                  {/* 2 */}
+                  {user.jobStatus === 'Completed' ? (
+                    <td style={{ color: 'blue' }}>
+                      <FolderCopyIcon />
+                    </td>
+                  ) : (
+                    <td style={{ color: 'red' }}>
+                      <FolderCopyIcon />
+                    </td>
+                  )}
+                  {/* 3 */}
+                  {user.jobStatus === 'Completed' ? (
+                    <td style={{ color: 'blue' }}>/{user.name}</td>
+                  ) : (
+                    <td style={{ color: 'red' }}>/{user.name}</td>
+                  )}
+                  {/* 4 */}
+                  {user.jobStatus === 'Completed' ? (
+                    <td style={{ color: 'blue' }}>{user.owner}</td>
+                  ) : (
+                    <td style={{ color: 'red' }}>{user.owner}</td>
+                  )}
+                  {/* 5 */}
+                  {user.jobStatus === 'Completed' ? (
+                    <td style={{ color: 'blue' }}>
+                      {user.jobStatus} on {`${month} ${day}`}
+                    </td>
+                  ) : (
+                    <td style={{ color: 'red' }}>
+                      {user.jobStatus} on {`${month} ${day}`}
+                    </td>
+                  )}
                 </tr>
               );
             })}
