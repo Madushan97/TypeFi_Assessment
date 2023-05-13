@@ -28,6 +28,7 @@ const Navbar = () => {
             List Of Jobs
           </Typography>
           <Button color="inherit">Home</Button>
+          <Button color="inherit">Jobs</Button>
         </Toolbar>
       </AppBar>
     </Box>
