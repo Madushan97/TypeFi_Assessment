@@ -2,6 +2,8 @@ package com.madushan.TypeFiMiniApp.service;
 
 import com.madushan.TypeFiMiniApp.model.User;
 import com.madushan.TypeFiMiniApp.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +12,8 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private List<User> userList;
+    private long count;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -26,4 +30,5 @@ public class UserService {
     public void save(List<User> users) {
         userRepository.saveAll(users);
     }
+
 }
