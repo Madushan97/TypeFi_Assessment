@@ -6,3 +6,4 @@ Backend Running on PORT : 8080
 ![1](https://github.com/Madushan97/TypeFi_Assessment/assets/66712958/4b1aecf5-2a79-4e02-bd0a-2883a0f357d8)
 ![111](https://github.com/Madushan97/TypeFi_Assessment/assets/66712958/81d864b4-643a-4310-9b0a-fda03e1a16d1)
 ![1](https://github.com/Madushan97/TypeFi_Assessment/assets/66712958/69bb754c-5bdb-4f17-b061-589b2281f4ff)
+![Screenshot 2023-05-14 235626](https://github.com/Madushan97/TypeFi_Assessment/assets/66712958/84f11b40-b950-4e01-964b-0d12bf77dc3e)
