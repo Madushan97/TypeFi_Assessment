@@ -1,16 +1,20 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import './table.css';
 
 import InfoIcon from '@mui/icons-material/Info';
 import CheckIcon from '@mui/icons-material/Check';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import SearchBar from './SearchBar';
+import Pagination from './Pagination';
 
 const Content = () => {
   const [users, setUsers] = useState([]);
   const [expandedRows, setExpandedRows] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
 
   useEffect(() => {
     loadUsers();
@@ -25,6 +29,7 @@ const Content = () => {
   // search function
   const handleSearch = (e) => {
     setSearchQuery(e.target.value.toLowerCase());
+    setCurrentPage(1);
   };
 
   // expand option
@@ -36,15 +41,29 @@ const Content = () => {
     }
   };
 
+  // pagination
+  const indexOfLastUser = currentPage * itemsPerPage;
+  const indexOfFirstUser = indexOfLastUser - itemsPerPage;
+
+  // Change page
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   const filteredUsers = users.filter((user) => {
     return user.owner.toLowerCase().includes(searchQuery);
   });
 
+  const totalItems = filteredUsers.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+
   return (
     <div className="container">
       <div className="py-4">
-        <SearchBar searchQuery={searchQuery} handleSearch={handleSearch} />
         {/* search bar */}
+        <SearchBar searchQuery={searchQuery} handleSearch={handleSearch} />
 
         <table className="table table-hover">
           <thead>
@@ -58,7 +77,7 @@ const Content = () => {
           </thead>
 
           <tbody>
-            {filteredUsers.map((user, index, row) => {
+            {currentUsers.map((user, index) => {
               // make time as mm-dd
               const endTime = user.endTime;
               const queuedTime = user.queuedTime;
@@ -185,6 +204,15 @@ const Content = () => {
             })}
           </tbody>
         </table>
+
+        {/* pagination section */}
+        <Pagination
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          paginate={paginate}
+        />
       </div>
     </div>
   );
