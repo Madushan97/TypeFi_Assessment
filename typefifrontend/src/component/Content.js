@@ -5,10 +5,12 @@ import InfoIcon from '@mui/icons-material/Info';
 import CheckIcon from '@mui/icons-material/Check';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import SearchBar from './SearchBar';
 
 const Content = () => {
   const [users, setUsers] = useState([]);
   const [expandedRows, setExpandedRows] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     loadUsers();
@@ -20,6 +22,11 @@ const Content = () => {
     console.log(result.data);
   };
 
+  // search function
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value.toLowerCase());
+  };
+
   // expand option
   const handleRowClick = (index) => {
     if (expandedRows.includes(index)) {
@@ -29,9 +36,16 @@ const Content = () => {
     }
   };
 
+  const filteredUsers = users.filter((user) => {
+    return user.owner.toLowerCase().includes(searchQuery);
+  });
+
   return (
     <div className="container">
       <div className="py-4">
+        <SearchBar searchQuery={searchQuery} handleSearch={handleSearch} />
+        {/* search bar */}
+
         <table className="table table-hover">
           <thead>
             <tr>
@@ -44,7 +58,7 @@ const Content = () => {
           </thead>
 
           <tbody>
-            {users.map((user, index, row) => {
+            {filteredUsers.map((user, index, row) => {
               // make time as mm-dd
               const endTime = user.endTime;
               const queuedTime = user.queuedTime;
@@ -57,9 +71,9 @@ const Content = () => {
               const eTime = new Date(endedTime);
 
               const queue_time = qtime.toLocaleTimeString();
-
               const start_time = sTime.toLocaleTimeString();
               const end_time = eTime.toLocaleTimeString();
+
               // month
               const month = date.toLocaleString('default', { month: 'long' });
 
@@ -75,7 +89,7 @@ const Content = () => {
                     onClick={() => handleRowClick(index)}
                     style={{ cursor: 'pointer' }}
                   >
-                    {/* 1 */}
+                    {/* table head  -  1 */}
                     {user.jobStatus === 'Completed' ? (
                       <td style={{ color: 'green' }}>
                         <CheckIcon />
@@ -85,7 +99,7 @@ const Content = () => {
                         <InfoIcon />
                       </td>
                     )}
-                    {/* 2 */}
+                    {/* table head  -  2 */}
                     {user.jobStatus === 'Completed' ? (
                       <td style={{ color: 'blue' }}>
                         <FolderCopyIcon />
@@ -95,19 +109,19 @@ const Content = () => {
                         <FolderCopyIcon />
                       </td>
                     )}
-                    {/* 3 */}
+                    {/* table head  -  3 */}
                     {user.jobStatus === 'Completed' ? (
                       <td style={{ color: 'blue' }}>/{user.name}</td>
                     ) : (
                       <td style={{ color: 'red' }}>/{user.name}</td>
                     )}
-                    {/* 4 */}
+                    {/* table head  -  4 */}
                     {user.jobStatus === 'Completed' ? (
                       <td style={{ color: 'blue' }}>{user.owner}</td>
                     ) : (
                       <td style={{ color: 'red' }}>{user.owner}</td>
                     )}
-                    {/* 5 */}
+                    {/* table head  -  5 */}
                     {user.jobStatus === 'Completed' ? (
                       <td style={{ color: 'blue' }}>
                         {user.jobStatus} on {`${month} ${day}`}
@@ -118,6 +132,8 @@ const Content = () => {
                       </td>
                     )}
                   </tr>
+
+                  {/* expand feature */}
                   {expandedRows.includes(index) && (
                     <tr>
                       <div>
